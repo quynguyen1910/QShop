@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\UserController;  
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +22,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class,'index'])->name('index');
-Route::get('/cart', [HomeController::class,'cart'])->name('cart');
+Route::get('/', [ClientController::class,'index'])->name('index');
+
+
+Route::prefix('/cart')->name('cart.')->group(function () {
+    Route::get('/', [ClientController::class,'cart'])->name('index');
+    Route::post('/add', [ClientController::class,'addToCart'])->name('add');
+    Route::delete('/deleteItem', [ClientController::class,'delItem'])->name('delete');
+    Route::put('/update', [ClientController::class, 'update'])->name('update');
+});
+
+
+
 
 
 Route::get('/admin/login', [AuthController::class,'login'])->name('login');

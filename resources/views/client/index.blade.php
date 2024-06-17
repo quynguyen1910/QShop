@@ -130,3 +130,9 @@
     </div>
     <!-- End Sản phẩm mới-->
 @endsection
+@push('ct-js')
+<script>
+    var addToCartUrl = "{{ route('cart.add') }}";
+    var  _token =  '{{ csrf_token() }}'
+</script>
+@endpush

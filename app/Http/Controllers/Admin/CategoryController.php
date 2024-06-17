@@ -25,7 +25,7 @@ class CategoryController extends Controller
         if ($isDel === '0') {
             $categories = Category::onlyTrashed()->orderBy('id', 'desc')->paginate($recordsPerPage);
         } else {
-            $categories = Category::whereNull('parent_id')->orderBy('id', 'desc')->paginate($recordsPerPage);
+            $categories = Category::whereNull('parent_id')->with('childrenRecursive')->orderBy('id', 'desc')->paginate($recordsPerPage);
         }
 
         // Xử lý danh mục đệ qui cho từng trang của phân trang
@@ -47,6 +47,7 @@ class CategoryController extends Controller
     {
         $categories = null;
         $categories = Category::whereNull('parent_id')->orderBy('id', 'desc')->with('childrenRecursive')->get();
+       
         $nestedCategories = Category::getNestedCategories($categories);
         // dd($nestedCategories);
         return view('admin.category.create', ['categories' => $nestedCategories]);

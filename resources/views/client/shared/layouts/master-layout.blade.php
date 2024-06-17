@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    @stack('ct-meta')
 
 
     <base href="client/">
@@ -59,8 +60,10 @@
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
     @stack('ct-js')
+
+    <script src="js/main.js"></script>
+
 </body>
 
 </html>

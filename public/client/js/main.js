@@ -112,26 +112,76 @@
     });
 
 
-    // Modal Video
-    $(document).ready(function () {
-        var $videoSrc;
-        $('.btn-play').click(function () {
-            $videoSrc = $(this).data("src");
+// add to cart
+$(document).ready(function() {
+    $('.product-item-add').on('click', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của button (chuyển hướng hoặc submit form)
+
+        var productId = $(this).data('id'); // Lấy giá trị của thuộc tính data-id từ nút được click
+
+
+        var imgtodrag = $(this).find('.cart-fly-img');
+        var cart = $('#cart-icon')
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                top: imgtodrag.offset().top,
+                left: imgtodrag.offset().left
+            })
+                .css({
+                'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '100'
+            })
+                .appendTo($('body'))
+                .animate({
+                'top': cart.offset().top + 10,
+                    'left': cart.offset().left + 10,
+                    'width': 75,
+                    'height': 75
+            }, 1000, 'easeInElastic');
+            
+            //Chỗ này nếu các bạn muốn icon cart có hiệu ứng thì bỏ dấu /* */ đi nhá
+            setTimeout(function () {
+                cart.effect("shake", {
+                    times: 1
+                }, 200);
+            }, 1500);
+
+            imgclone.animate({
+                'width': 0,
+                    'height': 0
+            }, function () {
+                $(this).detach()
+            });
+        }		
+
+
+
+
+
+        // Gửi yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        $.ajax({
+            url: addToCartUrl , // Đường dẫn đến route xử lý thêm vào giỏ hàng của Laravel
+            type: "POST", // Phương thức POST
+            data: {
+                '_token':_token,
+                'product_id': productId
+            },
+            success: function(response) {
+                $('#cart-count').text(response.totalQuantity);
+            },
+            error: function(xhr) {
+                // Xử lý lỗi nếu có
+                console.log('Đã xảy ra lỗi');
+            }
         });
-        console.log($videoSrc);
-
-        $('#videoModal').on('shown.bs.modal', function (e) {
-            $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
-        })
-
-        $('#videoModal').on('hide.bs.modal', function (e) {
-            $("#video").attr('src', $videoSrc);
-        })
     });
+});
 
-
-
-    // Product Quantity
+    // Tăng giảm số lượng sản phẩm
     $('.quantity button').on('click', function () {
         var button = $(this);
         var oldValue = button.parent().parent().find('input').val();

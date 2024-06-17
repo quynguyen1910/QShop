@@ -4,6 +4,19 @@
     </a>
 </button>     
 
+@if ($isDel)
+  <a href="{{$recycle ?? ''}}">
+  <button type="button" class="btn btn-primary">
+    <i class="fa fa-recycle" aria-hidden="true"></i>
+  </button>
+</a>
+@else
+<button data-name='{{$nameDel ?? ''}}' data-action="{{$routeDel ?? ''}}" data-bs-toggle="modal" data-bs-target="#requestModal" type="button" class="btn btn-danger">
+  <i class="fa fa-trash" aria-hidden="true"></i>
+</button>
+@endif
+
+
 
 
 {{-- <a href="{{$recycle ?? ''}}">
@@ -13,9 +26,9 @@
 </a> --}}
 
 
-<button data-name='{{$nameDel ?? ''}}' data-action="{{$routeDel ?? ''}}" data-bs-toggle="modal" data-bs-target="#requestModal" type="button" class="btn btn-danger">
+{{-- <button data-name='{{$nameDel ?? ''}}' data-action="{{$routeDel ?? ''}}" data-bs-toggle="modal" data-bs-target="#requestModal" type="button" class="btn btn-danger">
   <i class="fa fa-trash" aria-hidden="true"></i>
-</button>
+</button> --}}
 
 
 
